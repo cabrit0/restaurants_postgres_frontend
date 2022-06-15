@@ -10,6 +10,7 @@ const AddRestaurant = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await RestaurantFinder.post("/", {
         name,
@@ -17,7 +18,7 @@ const AddRestaurant = () => {
         price_range: priceRange,
       });
       console.log(response.data.data);
-      addRestaurants(response.data.data.restaurant);
+      addRestaurants(response.data.data.restaurant[0]);
     } catch (err) {
       console.log(err);
     }
