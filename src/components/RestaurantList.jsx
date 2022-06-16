@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import RestaurantFinder from "../api/RestaurantFinder";
 import { RestaurantContext } from "../context/RestaurantsContext";
+import StarRating from "./StarRating";
 
 const RestaurantList = (props) => {
   const { restaurants, setRestaurants } = useContext(RestaurantContext);
@@ -11,8 +12,8 @@ const RestaurantList = (props) => {
   const getData = async () => {
     try {
       const response = await RestaurantFinder.get("/");
-      console.log(response.data.data);
       setRestaurants(response.data.data.restaurants);
+      console.log(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -22,6 +23,9 @@ const RestaurantList = (props) => {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /*   const r = ratings.map((rating) => rating.average_rating);
+  console.log(r); */
 
   const handleDelete = async (e, id) => {
     //used to prevent button click to propagate to TR on table
@@ -43,6 +47,18 @@ const RestaurantList = (props) => {
 
   const handleRestaurantSelect = (id) => {
     navigate(`/restaurants/${id}`);
+  };
+
+  const renderRating = (restaurant) => {
+    if (!restaurant.count) {
+      return <span className="text-warning">0 reviews</span>;
+    }
+    return (
+      <>
+        <StarRating rating={restaurant.id} />
+        <span className="text-warning ml-1">({restaurant.count})</span>
+      </>
+    );
   };
 
   return (
@@ -69,7 +85,7 @@ const RestaurantList = (props) => {
                   <td>{restaurant.name}</td>
                   <td>{restaurant.location}</td>
                   <td>{"$".repeat(restaurant.price_range)}</td>
-                  <td>reviews</td>
+                  <td>{renderRating(restaurant)}</td>
                   <td>
                     <button
                       onClick={(e) => handleUpdate(e, restaurant.id)}

@@ -17,9 +17,9 @@ const UpdateRestaurant = (props) => {
     const fetchData = async () => {
       const response = await RestaurantFinder.get(`/${id}`);
       console.log(response.data.data);
-      setName(response.data.data.restaurant[0].name);
-      setLocation(response.data.data.restaurant[0].location);
-      setPriceRange(response.data.data.restaurant[0].price_range);
+      setName(response.data.data.restaurant.name);
+      setLocation(response.data.data.restaurant.location);
+      setPriceRange(response.data.data.restaurant.price_range);
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,6 +35,10 @@ const UpdateRestaurant = (props) => {
     });
     console.log(updatedRestaurants.data.data);
     navigate("/");
+  };
+
+  const handleBack = () => {
+    navigate(`/`);
   };
 
   return (
@@ -73,9 +77,12 @@ const UpdateRestaurant = (props) => {
         <button
           type="submit"
           onClick={(e) => handleSubmit(e)}
-          className="btn btn-primary mt-4"
+          className="btn btn-primary mx-2 my-4"
         >
           Submit
+        </button>
+        <button onClick={handleBack} className="btn btn-danger mx-2 my-4">
+          Back
         </button>
       </form>
     </div>
