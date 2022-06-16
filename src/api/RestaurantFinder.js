@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:3006/api/v1/restaurants",
+  baseURL: "https://cryptic-fortress-14262.herokuapp.com//api/v1/restaurants",
 });
